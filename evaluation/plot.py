@@ -10,14 +10,28 @@ y_true = test_data[:,-1]
 y_true = y_true.astype('int32')
 
 y_pred = np.load('../training/prediction_nn_log.pyc.npy')
-print(roc_auc_score(y_true, y_pred))
 
-
+## --AUC out
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+tpr, fpr, thr = roc_curve(y_true, y_pred, pos_label=0)
+auc = roc_auc_score(y_true, y_pred)
+print("AUC: ", auc)
+plt.plot(fpr, tpr,color='midnightblue',label='AUC %.3f' % (auc) )
+plt.xlabel('False postive rate')
+plt.ylabel('True positive rate')
+plt.legend()
+plt.savefig("ROC.png")
 
+
+
+
+
+
+
+## --Score out
 idx_sig = np.where(y_true == 1)[0]
 idx_bkg =np.where(y_true == 0)[0]
 
@@ -28,8 +42,15 @@ hist_pred_bkg = y_pred[idx_bkg]
 plt.rc('xtick',labelsize=20)
 plt.rc('ytick',labelsize=20)
 
+
 bins = np.linspace(0,1,100)
 plt.hist(hist_pred_sig,bins=bins,color='r',alpha=0.7)
 plt.hist(hist_pred_bkg,bins=bins,color='b',alpha=0.7)
+plt.xlabel('DNN score')
+plt.ylabel('Nuber of events')
+
+#plt.xscale('log')
+#plt.yscale('log')
+
 plt.savefig("score.png")
 
