@@ -11,22 +11,19 @@ y_true = y_true.astype('int32')
 
 y_pred = np.load('../training/prediction_nn_log.pyc.npy')
 
-## --AUC out
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+
+## --AUC out
 tpr, fpr, thr = roc_curve(y_true, y_pred, pos_label=0)
 auc = roc_auc_score(y_true, y_pred)
 print("AUC: ", auc)
-plt.plot(fpr, tpr,color='midnightblue',label='AUC %.3f' % (auc) )
+plt.plot(fpr, tpr,color='midnightblue')
 plt.xlabel('False postive rate')
 plt.ylabel('True positive rate')
-plt.legend()
 plt.savefig("ROC.png")
-
-
-
 
 
 
@@ -53,4 +50,3 @@ plt.ylabel('Nuber of events')
 #plt.yscale('log')
 
 plt.savefig("score.png")
-
