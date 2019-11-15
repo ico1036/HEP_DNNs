@@ -63,13 +63,10 @@ print(test_data.shape)
 
 
 # --Write data as csv format
-#np.savetxt(path+'train_data.csv',train_data,fmt='%5.5f',delimiter =',')
-#np.savetxt(path+'val_data.csv',val_data,fmt='%5.5f',delimiter =',')
-#np.savetxt(path+'test_data.csv',test_data,fmt='%5.5f',delimiter =',')
+np.savetxt(path+'train_data.csv',train_data,fmt='%5.5f',delimiter =',')
+np.savetxt(path+'val_data.csv',val_data,fmt='%5.5f',delimiter =',')
+np.savetxt(path+'test_data.csv',test_data,fmt='%5.5f',delimiter =',')
 
-np.savetxt('train_data.csv',train_data,fmt='%5.5f',delimiter =',')
-np.savetxt('val_data.csv',val_data,fmt='%5.5f',delimiter =',')
-np.savetxt('test_data.csv',test_data,fmt='%5.5f',delimiter =',')
 
 
 
