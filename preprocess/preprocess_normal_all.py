@@ -21,6 +21,15 @@ bkg_arr  = tree2array(bkg_tree)
 bkg_df   = pd.DataFrame(bkg_arr)	
 
 
+# --Add Label
+sig_df['issig'] = 1
+bkg_df['issig'] = 0
+
+
+# --Merge signal and bkg dataset
+data_df = pd.concat([sig_df,bkg_df],ignore_index=True)
+
+
 # --Normalize
 def MinMaxScaler(data):
 	numerator = data - np.min(data,0)
@@ -31,16 +40,7 @@ def MinMaxScaler(data):
 
 norm=True
 if norm == True :
-	sig_df = MinMaxScaler(sig_df)
-	bkg_df = MinMaxScaler(bkg_df)
-
-# --Add Label
-sig_df['issig'] = 1
-bkg_df['issig'] = 0
-
-
-# --Merge signal and bkg dataset
-data_df = pd.concat([sig_df,bkg_df],ignore_index=True)
+	data_df.iloc[:,:-1] = MinMaxScaler(data_df.iloc[:,:-1])
 
 
 display(data_df)
