@@ -10,20 +10,24 @@ from tensorflow.keras import layers
 if __name__ == '__main__':
 
 	print(" ---- START data loading ---- ")
-	path='../data/'
+	
+	path='../data/data_normal_by_all/'
+	#path='../preprocess/'
+	
+
 	# read data
-	train_data = np.loadtxt(path+'train_data.csv', delimiter=',')
-	val_data   = np.loadtxt(path+'val_data.csv', delimiter=',')
-	test_data  = np.loadtxt(path+'test_data.csv', delimiter=',')
+	train_data = pd.read_csv(path+'train_data.csv', sep=',')
+	val_data   = pd.read_csv(path+'val_data.csv', sep=',')
+	test_data  = pd.read_csv(path+'test_data.csv', sep=',')
 	
-	x_train = train_data[:,:-1]
-	y_train = train_data[:,-1]
+	x_train = train_data.iloc[:,:-1]
+	y_train = train_data['issig']
 	
-	x_val = val_data[:,:-1]
-	y_val = val_data[:,-1]
+	x_val = val_data.iloc[:,:-1]
+	y_val = val_data['issig']
 	
-	x_test = test_data[:,:-1]
-	y_test = test_data[:,-1]
+	x_test = test_data.iloc[:,:-1]
+	y_test = test_data['issig']
 	
 	print(" ")
 	print(" ---- END data loading ---- ")
@@ -35,23 +39,35 @@ if __name__ == '__main__':
 
 	# HyperParameter
 	batch_size = 512
-	training_epochs=20
-	neu = 64
+	training_epochs=50
+	
+	#neu = 64
+	#neu = 128
+	#neu = 256
+	neu = 512
+	#neu = 1024
+	#neu = 2048
 	
 	## --Model
-	x = layers.Input(shape=(9,))
+	x = layers.Input(shape=[len(x_train.keys())])
 	
+	# --layer1
 	h = layers.Dense(neu, activation='relu')(x)
-	h = layers.Dropout(0.7)(h)
+	h = layers.Dropout(0.5)(h)
 	h = layers.BatchNormalization()(h)	
 
+	# --layer2
 	h = layers.Dense(neu, activation='relu')(x)
-	h = layers.Dropout(0.7)(h)
+	h = layers.Dropout(0.5)(h)
 	h = layers.BatchNormalization()(h)	
 
+	# --layer3
 	h = layers.Dense(neu, activation='relu')(x)
-	h = layers.Dropout(0.7)(h)
+	h = layers.Dropout(0.5)(h)
 	h = layers.BatchNormalization()(h)	
+
+
+
 
 	y = layers.Dense(1, activation='sigmoid')(h)
 	model = tf.keras.Model(inputs = x,outputs = y)
@@ -82,7 +98,7 @@ if __name__ == '__main__':
 	        epochs=training_epochs,
 	        verbose=1,
 	        callbacks = [
-	            tf.keras.callbacks.EarlyStopping(verbose=True, patience=8, monitor='val_loss'),
+	            tf.keras.callbacks.EarlyStopping(verbose=True, patience=10, monitor='val_loss'),
 	            tf.keras.callbacks.ModelCheckpoint(model_weights,
 	            monitor='val_loss', verbose=True, save_best_only=True),
 				csv_logger
