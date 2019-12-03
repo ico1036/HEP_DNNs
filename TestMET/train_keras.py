@@ -10,6 +10,20 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--batch', type=int, default=512,
+            help="--batch 'batch size'")
+parser.add_argument('--epoch', type=int, default=50,
+            help="--epoch 'training epoch'")
+parser.add_argument('--neurons', type=int, default=512,
+            help="--neurons 'N of neurons per layer' ")
+
+args = parser.parse_args()
+
+
 
 if __name__ == '__main__':
 	
@@ -23,7 +37,10 @@ if __name__ == '__main__':
 	val_labels   = val_data.pop('l2Eta')
 	test_labels  = test_data.pop('l2Eta')
 	
-	
+	# HyperParameter
+	batch_size = args.batch
+	training_epochs= args.epoch
+	neu = args.neurons
 
 
 	### --- Normalize data
@@ -55,10 +72,6 @@ if __name__ == '__main__':
 	
 	### --- Model
 	
-	# --Hyper parameters
-	batch_size = 64
-	training_epochs=200
-	neu = 128
 	
 	# --Input
 	x = layers.Input(shape=[len(train_data.keys())])

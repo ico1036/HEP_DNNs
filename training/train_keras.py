@@ -12,16 +12,13 @@ import argparse
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--batch', type=int, default=512, 
-            help="batch")
+            help="--batch 'batch size'")
 parser.add_argument('--epoch', type=int, default=50,
-            help="epoch")
+            help="--epoch 'training epoch'")
 parser.add_argument('--neurons', type=int, default=512,
-            help="neurons")
+            help="--neurons 'N of neurons per layer' ")
 
 args = parser.parse_args()
-
-
-
 
 
 if __name__ == '__main__':
@@ -35,9 +32,6 @@ if __name__ == '__main__':
 	val_data   = pd.read_csv(path+'val_data.csv', sep=',')
 	test_data  = pd.read_csv(path+'test_data.csv', sep=',')
 	
-	#train_data = train_data.drop('dEtaJJ',axis=1)
-	#val_data   = val_data.drop('dEtaJJ',axis=1)
-	#test_data  = test_data.drop('dEtaJJ',axis=1)
 
 	display(test_data.describe())
 
