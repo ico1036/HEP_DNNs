@@ -7,27 +7,48 @@ from IPython.display import display
 from tensorflow import keras
 from tensorflow.keras import layers
 
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--batch', type=int, default=512, 
+            help="batch")
+parser.add_argument('--epoch', type=int, default=50,
+            help="epoch")
+parser.add_argument('--neurons', type=int, default=512,
+            help="neurons")
+
+args = parser.parse_args()
+
+
+
+
+
 if __name__ == '__main__':
 
 	print(" ---- START data loading ---- ")
 	
 	path='../data/data_normal_by_all/'
-	#path='../preprocess/'
 	
-
 	# read data
 	train_data = pd.read_csv(path+'train_data.csv', sep=',')
 	val_data   = pd.read_csv(path+'val_data.csv', sep=',')
 	test_data  = pd.read_csv(path+'test_data.csv', sep=',')
 	
-	x_train = train_data.iloc[:,:-1]
-	y_train = train_data['issig']
+	#train_data = train_data.drop('dEtaJJ',axis=1)
+	#val_data   = val_data.drop('dEtaJJ',axis=1)
+	#test_data  = test_data.drop('dEtaJJ',axis=1)
+
+	display(test_data.describe())
+
+	y_train = train_data.pop('issig')
+	x_train = train_data
 	
-	x_val = val_data.iloc[:,:-1]
-	y_val = val_data['issig']
+	y_val = val_data.pop('issig')
+	x_val = val_data
 	
-	x_test = test_data.iloc[:,:-1]
-	y_test = test_data['issig']
+	y_test = test_data.pop('issig')
+	x_test = test_data
 	
 	print(" ")
 	print(" ---- END data loading ---- ")
@@ -38,15 +59,9 @@ if __name__ == '__main__':
 	print(" ")	
 
 	# HyperParameter
-	batch_size = 512
-	training_epochs=50
-	
-	#neu = 64
-	#neu = 128
-	#neu = 256
-	neu = 512
-	#neu = 1024
-	#neu = 2048
+	batch_size = args.batch
+	training_epochs= args.epoch
+	neu = args.neurons
 	
 	## --Model
 	x = layers.Input(shape=[len(x_train.keys())])
@@ -57,18 +72,25 @@ if __name__ == '__main__':
 	h = layers.BatchNormalization()(h)	
 
 	# --layer2
-	h = layers.Dense(neu, activation='relu')(x)
+	h = layers.Dense(neu, activation='relu')(h)
 	h = layers.Dropout(0.5)(h)
 	h = layers.BatchNormalization()(h)	
 
 	# --layer3
-	h = layers.Dense(neu, activation='relu')(x)
+	h = layers.Dense(neu, activation='relu')(h)
 	h = layers.Dropout(0.5)(h)
 	h = layers.BatchNormalization()(h)	
 
+	# --layer4
+	h = layers.Dense(neu, activation='relu')(h)
+	h = layers.Dropout(0.5)(h)
+	h = layers.BatchNormalization()(h)	
 
-
-
+	# --layer5
+	h = layers.Dense(neu, activation='relu')(h)
+	h = layers.Dropout(0.5)(h)
+	h = layers.BatchNormalization()(h)	
+	
 	y = layers.Dense(1, activation='sigmoid')(h)
 	model = tf.keras.Model(inputs = x,outputs = y)
 	model.summary()

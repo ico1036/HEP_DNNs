@@ -20,6 +20,9 @@ bkg_tree = bkg_file.Get('ntuple')
 bkg_arr  = tree2array(bkg_tree)	
 bkg_df   = pd.DataFrame(bkg_arr)	
 
+print('sig: ', sig_df.shape[0])
+print('bkg: ', bkg_df.shape[0])
+
 
 # --Normalize
 def MinMaxScaler(data):
@@ -63,9 +66,9 @@ print(test_data.shape)
 
 
 # --Write data as csv format
-np.savetxt(path+'train_data.csv',train_data,fmt='%5.5f',delimiter =',')
-np.savetxt(path+'val_data.csv',val_data,fmt='%5.5f',delimiter =',')
-np.savetxt(path+'test_data.csv',test_data,fmt='%5.5f',delimiter =',')
+#np.savetxt(path+'train_data.csv',train_data,fmt='%5.5f',delimiter =',')
+#np.savetxt(path+'val_data.csv',val_data,fmt='%5.5f',delimiter =',')
+#np.savetxt(path+'test_data.csv',test_data,fmt='%5.5f',delimiter =',')
 
 
 

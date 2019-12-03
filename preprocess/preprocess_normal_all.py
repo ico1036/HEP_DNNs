@@ -5,7 +5,7 @@ from root_numpy import testdata
 from IPython.display import display
 import numpy as np
 
-
+path_='../data/data_normal_by_all/'
 path='../data/'
 
 # --read signal dataset
@@ -29,6 +29,8 @@ bkg_df['issig'] = 0
 # --Merge signal and bkg dataset
 data_df = pd.concat([sig_df,bkg_df],ignore_index=True)
 
+data_df['dEtaJJ'] = data_df['dEtaJJ'].abs()
+
 
 # --Normalize
 def MinMaxScaler(data):
@@ -38,9 +40,20 @@ def MinMaxScaler(data):
 	return numerator / denominator
     #return numerator / (denominator+1e-7)
 
+
+def MaxScaler(data):
+	numerator = data
+	denominator = np.max(data,0)
+	denominator = denominator.astype('float')
+	return numerator / denominator
+
+
+
 norm=True
 if norm == True :
 	data_df.iloc[:,:-1] = MinMaxScaler(data_df.iloc[:,:-1])
+	#data_df.iloc[:,:-1]  = MaxScaler(data_df.iloc[:,:-1])
+
 
 
 display(data_df)
@@ -67,9 +80,8 @@ print(test_data.shape)
 #np.savetxt(path+'val_data.csv',val_data,fmt='%5.5f',delimiter =',')
 #np.savetxt(path+'test_data.csv',test_data,fmt='%5.5f',delimiter =',')
 
-np.savetxt('train_data.csv',train_data,fmt='%5.5f',delimiter =',')
-np.savetxt('val_data.csv',val_data,fmt='%5.5f',delimiter =',')
-np.savetxt('test_data.csv',test_data,fmt='%5.5f',delimiter =',')
 
-
+np.savetxt(path_+'train_data.csv',train_data,fmt='%5.5f',header='j1Pt,j2Pt,j1Eta,j2Eta,j1Phi,j2Phi,mJJ,dEtaJJ,zepp,issig',delimiter =',')
+np.savetxt(path_+'val_data.csv',val_data,fmt='%5.5f',header='j1Pt,j2Pt,j1Eta,j2Eta,j1Phi,j2Phi,mJJ,dEtaJJ,zepp,issig',delimiter =',')
+np.savetxt(path_+'test_data.csv',test_data,fmt='%5.5f',header='j1Pt,j2Pt,j1Eta,j2Eta,j1Phi,j2Phi,mJJ,dEtaJJ,zepp,issig',delimiter =',')
 
