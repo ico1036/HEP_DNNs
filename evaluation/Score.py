@@ -6,13 +6,17 @@ import numpy as np
 
 Xsec_sig = 0.004942
 Xsec_bkg = 0.02353
-Gen_sig  = 443712
-Gen_bkg  = 444288
+#Gen_sig  = 443712
+#Gen_bkg  = 444288
 Lumi	 = 35900
 
 path='../data/data_normal_by_all/'
 
 test_data  =pd.read_csv(path+'test_data.csv', sep=',')
+
+Gen_sig = test_data.query("issig > 0").shape[0]
+Gen_bkg = test_data.query("issig == 0").shape[0]
+
 
 y_true = test_data['issig']
 
@@ -54,10 +58,7 @@ plt.grid(which='major', linestyle='-')
 plt.minorticks_on()
 
 plt.tight_layout()
-
-print(hist_pred_sig)
-print(normed_hist_sig)
-
-
 plt.savefig("normed_score.png")
+
+
 
