@@ -28,14 +28,15 @@ x_dot = 0.082
 y_dot = 0.288
 
 
+plt.rcParams["legend.loc"] = 'lower right'
 plt.plot(fpr, tpr,color='midnightblue',label='ROC')
 plt.plot(x_dot, y_dot, 'o', label='Cut based selection')
 plt.vlines(x_dot, ymin=0, ymax=1, linestyle='dashed', alpha=0.5, color='black')
-plt.xlabel('False postive rate')
-plt.ylabel('True positive rate')
+plt.xlabel('False postive rate',fontsize=20)
+plt.ylabel('True positive rate',fontsize=20)
 plt.xlim(-0.01,1.)
 plt.ylim(0,1.01)
-plt.legend()
+plt.legend(prop={'size':10})
 plt.grid(which='major', linestyle='--')
 plt.minorticks_on()
 plt.savefig("ROC.png")
