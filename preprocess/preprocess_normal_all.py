@@ -5,7 +5,7 @@ from root_numpy import testdata
 from IPython.display import display
 import numpy as np
 
-path_='../data/data_normal_by_all/'
+#path_='../data/data_normal_by_all/'
 path='../data/'
 
 # --read signal dataset
@@ -48,15 +48,24 @@ def MaxScaler(data):
 	return numerator / denominator
 
 
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+data_df.hist(bins=50, figsize=(20,15))
+plt.savefig('originhist.png')
+
 
 norm=True
 if norm == True :
 	data_df.iloc[:,:-1] = MinMaxScaler(data_df.iloc[:,:-1])
 	#data_df.iloc[:,:-1]  = MaxScaler(data_df.iloc[:,:-1])
 
+display(data_df.describe())
+data_df.hist(bins=50, figsize=(20,15))
+plt.savefig('normed.png')
 
 
-display(data_df)
 data = data_df.values
 
 
@@ -76,12 +85,7 @@ print(test_data.shape)
 
 
 # --Write data as csv format
-#np.savetxt(path+'train_data.csv',train_data,fmt='%5.5f',delimiter =',')
-#np.savetxt(path+'val_data.csv',val_data,fmt='%5.5f',delimiter =',')
-#np.savetxt(path+'test_data.csv',test_data,fmt='%5.5f',delimiter =',')
-
-
-np.savetxt(path_+'train_data.csv',train_data,fmt='%5.5f',header='j1Pt,j2Pt,j1Eta,j2Eta,j1Phi,j2Phi,mJJ,dEtaJJ,zepp,issig',delimiter =',')
-np.savetxt(path_+'val_data.csv',val_data,fmt='%5.5f',header='j1Pt,j2Pt,j1Eta,j2Eta,j1Phi,j2Phi,mJJ,dEtaJJ,zepp,issig',delimiter =',')
-np.savetxt(path_+'test_data.csv',test_data,fmt='%5.5f',header='j1Pt,j2Pt,j1Eta,j2Eta,j1Phi,j2Phi,mJJ,dEtaJJ,zepp,issig',delimiter =',')
+#np.savetxt(path_+'train_data.csv',train_data,fmt='%5.5f',header='j1Pt,j2Pt,j1Eta,j2Eta,j1Phi,j2Phi,mJJ,dEtaJJ,zepp,issig',delimiter =',')
+#np.savetxt(path_+'val_data.csv',val_data,fmt='%5.5f',header='j1Pt,j2Pt,j1Eta,j2Eta,j1Phi,j2Phi,mJJ,dEtaJJ,zepp,issig',delimiter =',')
+#np.savetxt(path_+'test_data.csv',test_data,fmt='%5.5f',header='j1Pt,j2Pt,j1Eta,j2Eta,j1Phi,j2Phi,mJJ,dEtaJJ,zepp,issig',delimiter =',')
 
