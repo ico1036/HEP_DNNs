@@ -42,7 +42,6 @@ plt.rc('xtick',labelsize=20)
 plt.rc('ytick',labelsize=20)
 plt.rcParams["figure.figsize"] = (8,8)
 
-
 bins = np.linspace(0,1,100)
 normed_hist_sig = plt.hist(hist_pred_sig,bins=bins,color='r',histtype='step',linewidth=3,weights=weight_sig,label='DNN signal')
 normed_hist_bkg = plt.hist(hist_pred_bkg,bins=bins,color='b',histtype='step',linewidth=3,weights=weight_bkg,label='DNN background')
@@ -58,7 +57,7 @@ plt.minorticks_on()
 
 plt.tight_layout()
 plt.savefig("normed_score.png")
-
+plt.close()
 
 N_bkg = normed_hist_bkg[0]
 N_sig = normed_hist_sig[0]
@@ -82,17 +81,17 @@ print(arr_significance.index(max(arr_significance)))
 print(max(arr_significance))
 
 
-x_max = 0.59
+x_max = 0.63
 x_dot = x_max
 y_dot = 7.811061160473836
 plt.rcParams["legend.loc"] = 'lower left'
 plt.plot(list([round(i*0.01,2) for i in range(0,99)]),arr_significance,'-o',color='royalblue')
 plt.xlabel('DNN score',fontsize=25)
 plt.ylabel('Significance',fontsize=25)
-plt.vlines(x_max, ymin=0, ymax=10, linestyle='dashed',linewidth=3, alpha=0.5, color='red',label='Optimized threshold: 0.59')
+plt.vlines(x_max, ymin=0, ymax=10, linestyle='dashed',linewidth=3, alpha=0.5, color='red',label='Optimized threshold: 0.63')
 plt.plot(x_dot, y_dot, 'o',color='orange', label='Max significance: 7.8$\sigma$')
 plt.xlim(0,1)
-plt.ylim(0,8.5)
+plt.ylim(0,9)
 plt.legend(prop={'size':14})
 plt.grid(which='major', linestyle='-')
 plt.minorticks_on()
