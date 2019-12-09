@@ -24,6 +24,9 @@ tpr, fpr, thr = roc_curve(y_true, y_pred, pos_label=0)
 auc = roc_auc_score(y_true, y_pred)
 print("AUC: ", auc)
 
+
+print("Accuracy: ", accuracy_score(y_true,y_pred>=0.59))
+
 x_dot = 0.082
 y_dot = 0.288
 
@@ -40,5 +43,4 @@ plt.legend(prop={'size':10})
 plt.grid(which='major', linestyle='--')
 plt.minorticks_on()
 plt.savefig("ROC.png")
-
 

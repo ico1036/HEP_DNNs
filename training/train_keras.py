@@ -6,6 +6,12 @@ import pandas as pd
 from IPython.display import display
 from tensorflow import keras
 from tensorflow.keras import layers
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+
+
 
 import argparse
 
@@ -32,8 +38,22 @@ if __name__ == '__main__':
 	val_data   = pd.read_csv(path+'val_data.csv', sep=',')
 	test_data  = pd.read_csv(path+'test_data.csv', sep=',')
 	
+	
+	train_data.pop('dEtaJJ')
+	val_data.pop('dEtaJJ')
+	test_data.pop('dEtaJJ')
+
+	train_data.pop('mJJ')
+	val_data.pop('mJJ')
+	test_data.pop('mJJ')
+
 
 	display(test_data.describe())
+
+	train_data.hist(bins=50, figsize=(20,15))
+	plt.savefig('features.png')
+
+
 
 	y_train = train_data.pop('issig')
 	x_train = train_data
@@ -133,5 +153,4 @@ if __name__ == '__main__':
 	
 	test_loss, test_acc = model.evaluate(x_test,y_test)
 	print('test_acc: ', test_acc)
-
 
