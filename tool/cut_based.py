@@ -15,6 +15,11 @@ N_gen_bkg = data_df.query('issig == 0').shape[0]
 Lumi=35900
 #Lumi=150000
 
+data_df['dEtaJJ'] = data_df['dEtaJJ'].abs()
+data_df['zepp']   = data_df['zepp'].abs()
+
+
+print(data_df.describe())
 print("xsec sig: ",xsec_sig)
 print("xsec bkg: ",xsec_bkg)
 print("Signal Gen events: ",N_gen_sig)
@@ -25,32 +30,17 @@ print("Start optimize ... ")
 ## Cut results -----------------------------------
 
 '''
-Mjj          900.000000
-dEta           2.500000
-Zepp           2.200000
-N_exp_sig     51.118863
-N_exp_bkg     69.374917
-Sigma          4.660000
-
-('xsec sig: ', 0.004942)
-('xsec bkg: ', 0.02353)
-('Signal Gen events: ', 740000)
-('BKG    Gen events: ', 740000)
-Start optimize ...
-('Xsec sig: ', 0.004942)
-('Xsec bkg: ', 0.02353)
-('Gen sig: ', 740000)
-('Gen bkg: ', 740000)
-('TPR: ', 0.288)
-('FPR: ', 0.082)
-('ACC: ', 0.603)
-
+Mjj          800.000000
+dEta           2.400000
+Zepp           1.600000
+N_exp_sig    106.249527
+N_exp_bkg    114.147731
+Sigma          7.160000
 '''
 
-
-Mjjcut  = 900.0
-dEtacut = 2.5
-Zeppcut =  2.2
+Mjjcut  = 800
+dEtacut = 2.4
+Zeppcut =  1.6
 
 # Confusion matrix
 TP = data_df.query('mJJ > @Mjjcut  and dEtaJJ > @dEtacut  and zepp < @Zeppcut  and issig > 0')['mJJ'].shape[0]
@@ -72,15 +62,14 @@ print("FPR: ",round(FPR,3))
 print("ACC: ",round(ACC,3))
 
 
-
 '''
 ## ----------------- Cut scanner
 
 
 ## Set cut domain
-Domain_Mjj  = [600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2500]
-Domain_dEta = list([round(i*0.1,1) for i in range(20,60)])
-Domain_zepp = list([round(i*0.1,1) for i in range(10,30)])
+Domain_Mjj  = [500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2500]
+Domain_dEta = list([round(i*0.1,1) for i in range(0,60)])
+Domain_zepp = list([round(i*0.1,1) for i in range(0,50)])
 Domain_zepp.reverse()
 
 print("Mjj  dEta Zepp N_exp_sig N_exp_bkg Sigma")
@@ -97,6 +86,8 @@ for i in range(len(Domain_Mjj)):
 			N_exp_sig = N_sig * xsec_sig *Lumi / N_gen_sig
 			N_exp_bkg = N_bkg * xsec_bkg *Lumi / N_gen_bkg
 			
+			if(N_exp_sig+N_exp_bkg ==0):
+				continue;
 			Sigma = N_exp_sig / math.sqrt( N_exp_sig+N_exp_bkg )
 			print Domain_Mjj[i],Domain_dEta[j],Domain_zepp[k],N_exp_sig,N_exp_bkg,round(Sigma,2)
 

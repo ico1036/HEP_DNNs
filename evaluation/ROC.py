@@ -27,8 +27,8 @@ print("AUC: ", auc)
 
 print("Accuracy: ", accuracy_score(y_true,y_pred>=0.59))
 
-x_dot = 0.082
-y_dot = 0.288
+x_dot = 0.135
+y_dot = 0.599
 
 
 plt.rcParams["legend.loc"] = 'lower right'

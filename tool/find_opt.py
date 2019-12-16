@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from IPython.display import display
 
-data_df = pd.read_csv('cut_results2.csv',sep=' ')
+data_df = pd.read_csv('cut_results3.csv',sep=' ')
 #display(data_df)
 
 
