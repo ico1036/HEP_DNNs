@@ -25,7 +25,7 @@ auc = roc_auc_score(y_true, y_pred)
 print("AUC: ", auc)
 
 
-print("Accuracy: ", accuracy_score(y_true,y_pred>=0.59))
+print("Accuracy: ", accuracy_score(y_true,y_pred>=0.63))
 
 x_dot = 0.135
 y_dot = 0.599
